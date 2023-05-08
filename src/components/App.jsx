@@ -27,10 +27,6 @@ const App = () => {
   const [total, setTotal] = useState(0)
   const [positive, setPositive] = useState(0)
 
-  const countTotalFeedback = () => setTotal(good + bad + neutral)
-
-  const countPositive = () => setPositive((good / total) * 100)
-
   const handlegood = () => {
     setGood(good + 1);
   }
@@ -44,11 +40,11 @@ const App = () => {
   }
 
   useEffect(() => {
-    countTotalFeedback()
+    setTotal(good + bad + neutral)   
   }, [good, bad, neutral])
 
   useEffect(() => {
-    countPositive()
+    setPositive((good / total) * 100)
   }, [total])
 
   return (
