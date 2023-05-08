@@ -45,7 +45,7 @@ const App = () => {
 
   useEffect(() => {
     setPositive((good / total) * 100)
-  }, [total])
+  }, [total, good])
 
   return (
     <div className={css.container}>
