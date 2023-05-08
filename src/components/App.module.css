@@ -1,0 +1,26 @@
+.container {
+    margin: 20px;
+    min-width: 280px;
+}
+
+.btns {
+
+}
+
+.btn {
+    margin-right: 10px;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(212, 212, 212);
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.75);
+}
+
+.btn:hover {
+    background-color: rgb(193, 227, 251);
+}
+
+.stats {
+
+}
