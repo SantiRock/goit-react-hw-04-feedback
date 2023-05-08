@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { useEffect, useState } from 'react';
 import css from './App.module.css';
 import PropTypes from "prop-types";
 import { FeedbackOption } from './FeedbackOptions';
@@ -20,66 +20,52 @@ Section.propTypes = {
 
 const Notification = ( {message} ) => <p>{message}</p>
 
-class App extends Component {
-  state = { good: 0, neutral: 0, bad: 0, total: 0, positive: 0 }
+const App = () => {
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+  const [total, setTotal] = useState(0)
+  const [positive, setPositive] = useState(0)
 
-  countTotalFeedback = () => {
-    this.setState(prevState => {
-      return {total: prevState.good + prevState.bad + prevState.neutral}
-     })
+  const countTotalFeedback = () => setTotal(good + bad + neutral)
+
+  const countPositive = () => setPositive((good / total) * 100)
+
+  const handlegood = () => {
+    setGood(good + 1);
   }
 
-  countPositiveFeedbackPercentage = () => {
-    this.setState(prevState => {
-      return {positive: (prevState.good / prevState.total) * 100 }
-    })
+  const handleneutral = () => {
+    setNeutral(neutral + 1)
   }
 
-  handlegood = evt => { 
-    evt.preventDefault();
-    this.setState({good: this.state.good + 1})
-    this.countTotalFeedback()
-    this.countPositiveFeedbackPercentage()
+  const handlebad = () => {
+    setBad(bad + 1)
   }
 
-  handleneutral = evt => { 
-    evt.preventDefault();
-    this.setState({neutral: this.state.neutral + 1})
-    this.countTotalFeedback()
-    this.countPositiveFeedbackPercentage()
-  }
+  useEffect(() => {
+    countTotalFeedback()
+  }, [good, bad, neutral])
 
-  handlebad = evt => { 
-    evt.preventDefault();
-    this.setState({bad: this.state.bad + 1})
-    this.countTotalFeedback()
-    this.countPositiveFeedbackPercentage()
-  }
+  useEffect(() => {
+    countPositive()
+  }, [total])
 
-
-  render() {
-    const { good } = this.state
-    const { neutral } = this.state
-    const { bad } = this.state
-    const {total} = this.state
-    const {positive} = this.state
-
-    return (
-      <div className={css.container}>
-        <Section title={'Please leave feedback'} >
-          <FeedbackOption option={['Good', 'Neutral', 'Bad']} 
-          onLeaveFeedback={[this.handlegood, this.handleneutral, this.handlebad]} />
-        </Section>
-        <Section title={'Statistics'}>
-          {total === 0 ? (
-            <Notification message={'No feedback given'} />
+  return (
+    <div className={css.container}>
+      <Section title={'Please leave feedback'} >
+        <FeedbackOption option={['Good', 'Neutral', 'Bad']} 
+        onLeaveFeedback={[handlegood, handleneutral, handlebad]} />
+      </Section>
+      <Section title={'Statistics'}>
+        {total === 0 ? (
+          <Notification message={'No feedback given'} />
           ) : (
-            <Stats good={good} neutral={neutral} bad={bad} total={total} positive={positive.toFixed(0) + '%'} />
-          )}
-        </Section>        
-      </div>
-    );
-  }
-};
+          <Stats good={good} neutral={neutral} bad={bad} total={total} positive={positive.toFixed(0) + '%'} />
+        )}
+      </Section>        
+    </div>
+  )
+}
 
 export { App } 
