@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import css from './App.module.css';
 import PropTypes from "prop-types";
-import { FeedbackOption } from './FeedbackOptions';
+import { FeedbackOption } from './FeedbackOptionsBeta';
 import { Stats } from './Stats';
 
 const Section = ( {title, children} ) => {
@@ -27,22 +27,16 @@ const App = () => {
   const [total, setTotal] = useState(0)
   const [positive, setPositive] = useState(0)
 
-  const state = {good, neutral, bad}
+  const handlegood = () => {
+    setGood(state => state + 1);
+  }
 
-  const leaveFeedback = (options) => {
-    //console.log(options)
-    if (options ==='good') {
-      return setGood(state => state + 1)
-    } 
-    if (options ==='neutral') {
-      return setNeutral(state => state + 1)
+  const handleneutral = () => {
+    setNeutral(state => state + 1)
+  }
 
-    }
-    if (options ==='bad') {
-      return setBad(state => state + 1)
-
-    }
-
+  const handlebad = () => {
+    setBad(state => state + 1)
   }
 
   useEffect(() => {
@@ -56,8 +50,8 @@ const App = () => {
   return (
     <div className={css.container}>
       <Section title={'Please leave feedback'} >
-        <FeedbackOption options={Object.keys(state)} 
-        onLeaveFeedback={leaveFeedback} />
+        <FeedbackOption option={['Good', 'Neutral', 'Bad']} 
+        onLeaveFeedback={[handlegood, handleneutral, handlebad]} />
       </Section>
       <Section title={'Statistics'}>
         {total === 0 ? (

@@ -3,12 +3,18 @@ import css from './App.module.css';
 
 const Btn = ( {handleClick, text} ) => <button className={css.btn} onClick={handleClick}>{text}</button>
 
-const FeedbackOption = ( {option, onLeaveFeedback}) => {
+const FeedbackOption = ( {options, onLeaveFeedback}) => {
     return (
       <div className={css.btns}>
-        <Btn text={option[0]} handleClick={onLeaveFeedback[0]}/>
-        <Btn text={option[1]} handleClick={onLeaveFeedback[1]}/>
-        <Btn text={option[2]} handleClick={onLeaveFeedback[2]}/>
+        <ul>
+          {options.map((option, index) => {
+            return(
+              <li key={index}>
+                <Btn text={option} handleClick={() => onLeaveFeedback(option)} />                
+              </li>
+            )
+          })}
+        </ul>
       </div>
     )
 }
@@ -19,8 +25,8 @@ Btn.propTypes = {
 }
 
 FeedbackOption.propTypes = {
-    option: PropTypes.array.isRequired,
-    onLeaveFeedback: PropTypes.array
+    options: PropTypes.array.isRequired,
+    onLeaveFeedback: PropTypes.func
 }
 
 export {FeedbackOption}

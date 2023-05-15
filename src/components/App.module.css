@@ -21,6 +21,9 @@
     background-color: rgb(193, 227, 251);
 }
 
-.stats {
 
+ul {
+    list-style-type: none;
+    padding:0;
+    display: flex;
 }
